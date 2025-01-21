@@ -123,6 +123,7 @@
             success:
                 function () {
                     alert("유저가 성공적으로 등록되었습니다.");
+                    //직접 리스트에 추가
                     $("#userList").append(`<li>` + username + `</li>`);
                     $("#username").val(``); //작성한 유저네임 value 값 비우기
                     $("#password").val(``); //작성한 비밀번호 value 값 비우기

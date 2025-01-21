@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class KHTProductService {
     @Autowired
-    KHTProductRepository productRepository;
+    private KHTProductRepository productRepository;
 
     //모든 제품 조회
     public List<KHTProduct> findAll() {

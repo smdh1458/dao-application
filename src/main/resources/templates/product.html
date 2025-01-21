@@ -58,39 +58,48 @@
 <h1>제품조회</h1>
 <ul id="productList"></ul>
 <script>
-    $.ajax({
-        url: "/api/products",
-        method: "GET",
-        success:
-            function (data) {
-                $.each(data, function (index, value) {
-                    $("#productList").append(`<li>` + value.name + `</li>`);
-                })
-            },
-        error:
-            function () {
-                $("#productList").html("<p>백엔드에서 데이터 불러오기 실패</p>");
-            }
-    })
+    function getProductList() {
+        $.ajax({
+            url: "/api/products",
+            method: "GET",
+            success:
+                function (data) {
+                    $("#productList").empty();
+                    $.each(data, function (index, value) {
+                        $("#productList").append('<li>' + value.name + '</li>');
+                    })
+                },
+            error:
+                function () {
+                    $("#productList").html("<p>백엔드에서 데이터 불러오기 실패</p>");
+                }
+        })
+    }
+
+    getProductList();
 </script>
 
+<h1>제품 등록</h1>
 <form id="productForm">
     <label for="productName">제품명: </label>
     <input type="text" id="productName" name="productName">
+
     <label for="price">가격: </label>
     <input type="number" id="price" name="price">
+
     <label for="description">설명: </label>
     <input type="text" id="description" name="description">
+
     <label for="stock">수량: </label>
     <input type="number" id="stock" name="stock">
     <button type="button" id="saveProductButton">제품저장</button>
 </form>
 <script>
     $("#saveProductButton").click(function () {
-        const productName = $("#productName").val();
-        const price = $("#price").val();
-        const description = $("#description").val();
-        const stock = $("#stock").val();
+        let productName = $("#productName").val();
+        let price = $("#price").val();
+        let description = $("#description").val();
+        let stock = $("#stock").val();
 
         $.ajax({
             url: "/api/saveProduct",
@@ -105,7 +114,15 @@
             success:
                 function () {
                     alert("제품이 성공적으로 등록되었습니다.");
+                    /*
                     $("#productList").append(`<li>` + productName + `</li>`);
+                    $("#productName").val(``);
+                    $("#price").val(``);
+                    $("#description").val(``);
+                    $("#stock").val(``);
+                     */
+                    //ajax 기능을 한번더 이용해서 제품 불러오기
+                    getProductList(); //제품 등록 되었을 때 제품 모두 보기 기능 사용
                     $("#productName").val(``);
                     $("#price").val(``);
                     $("#description").val(``);
