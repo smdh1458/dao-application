@@ -22,4 +22,9 @@ public class KHTProductService {
     public KHTProduct save(KHTProduct product) {
         return productRepository.save(product);
     }
+
+    public KHTProduct findProductById(int id) {
+        return productRepository.findProductById(id);
+    }
+
 }

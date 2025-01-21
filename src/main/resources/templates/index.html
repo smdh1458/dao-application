@@ -90,7 +90,12 @@
         success:
             function (data) {
                 $.each(data, function (index, item) {
-                    $("#userList").append(`<li>` + item.username + `</li>`);
+                    $("#userList").append(
+                        /* ?id=${item.id} 상세보기 페이지에 유저번호를 주소값 뒤에 작성해줄 뿐
+                        *                 Mysql 데이터가 안넘어와도 페이지를 보여주는 수단일 뿐이기 때문에
+                        *                 데이터 상관 XXX
+                        * */
+                        `<li><a href="/user?id=${item.id}">${item.username}</a></li>`);
                 })
             },
         error:
@@ -109,9 +114,31 @@
 </form>
 <script>
     $("#userForm").submit(function (e) {
-        e.preventDefault(); //form을 제출하기 전에 잠깐 멈추기 상태
+        e.preventDefault(); //form을 제출하기 전에 잠깐 멈추기 상태 , 항상 맨 위에 있어야함
         const username = $("#username").val();
         const password = $("#password").val();
+        const usernameRegex = /^[a-zA-Z0-9]{5,15}$/;
+        const passwordRegex = /^(?=.[A-Za-z])(?=.\\d)[A-Za-z\\d]{8,}$/;
+        // 빈칸인지 빈칸이 아닌지
+        if (!username){
+            alert("등록하고자하는 아이디를 작성하세요");
+            return;
+        }
+        if (!password){
+            alert("비밀번호를 작성하세요");
+            return;
+        }
+        //정규식에 일치하게 작성했는지
+        if (!usernameRegex.test(username)){
+            alert("아이디는 5~15자 영문 및 숫자로만 작성해야합니다.");
+            return;
+        }
+        if (!passwordRegex.test(password)){
+            alert("비밀번호는 최소 8자, 하나이상의 문자 및 숫자를 포함해야 합니다.");
+            return;
+        }
+        //동일한 아이디가 존재하는지
+
         $.ajax({
             url: "/api/saveUser",
             method: "POST",

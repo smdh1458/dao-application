@@ -10,6 +10,6 @@ public interface KHTProductRepository extends JpaRepository<KHTProduct, Long> {
 
     KHTProduct findByName(String name);
 
-    KHTProduct findById(int id);
+    KHTProduct findProductById(int id);
 
 }
