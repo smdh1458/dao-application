@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>책</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h1>책 목록보기</h1>
+<div id="bookContainer">
+    <table>
+    <tr>
+        <th>ID</th>
+        <th>제목</th>
+        <th>저자</th>
+        <th>장르</th>
+    </tr>
+    </table>
+</div>
+<script>
+    $.ajax({
+        url:"/api/books",
+        method:"GET",
+        success:
+            function (data){
+                $.each(data, function (index, value){
+                    $("#bookContainer").append(`
+                            <tr>
+                                <th><a href="/book/?id=${value.id}">${value.id}</a></th>
+                                <th>${value.title}</th>
+                                <th>${value.author}</th>
+                                <th>${value.genre}</th>
+                            </tr>
+                    `);
+                })
+            },
+        error:
+            function (){
+                $("#bookContainer").html("<p>벡엔드에서 데이터를 불러오기 실패했습니다.</p>");
+            }
+    })
+</script>
+</body>
+</html>

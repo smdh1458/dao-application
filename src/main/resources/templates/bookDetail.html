@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>책 정보</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h1>특정 책 정보</h1>
+<div id="bookDetailContainer"></div>
+<script>
+    const bookApi = new URLSearchParams(window.location.search);
+    const bookId = bookApi.get("id")
+    $.ajax({
+        url:`/api/book/${bookId}`,
+        method:"GET",
+        success:
+            function (data){
+                $("#bookDetailContainer").html(`
+                    <h1>${data.title}</h1>
+                    <p>저자: ${data.author}</p>
+                    <p>장르: ${data.genre}</p>
+                `);
+            },
+        error:
+            function (){
+                $("#bookDetailContainer").html("<p>데이터를 불러오는데 실패했습니다.</p>");
+            }
+    })
+</script>
+</body>
+</html>

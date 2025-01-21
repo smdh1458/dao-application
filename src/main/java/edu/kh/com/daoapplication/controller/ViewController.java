@@ -36,4 +36,19 @@ public class ViewController {
     public String getProducts(@RequestParam("id") int id){
         return "productsDetail";
     }
+
+    @GetMapping("/books")
+    public String getBooks(){
+        return "books";
+    }
+
+    @GetMapping("/book/")
+    public String getBookById(@RequestParam("id")int id){
+        return "bookDetail";
+    }
+
+    @GetMapping("/book/add")
+    public String saveBook(){
+        return "newBooks";
+    }
 }

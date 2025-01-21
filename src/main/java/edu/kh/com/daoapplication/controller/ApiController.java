@@ -1,7 +1,9 @@
 package edu.kh.com.daoapplication.controller;
 
-import edu.kh.com.daoapplication.dao.KHTProduct;
-import edu.kh.com.daoapplication.dao.KHTUser;
+import edu.kh.com.daoapplication.entity.KHTBook;
+import edu.kh.com.daoapplication.entity.KHTProduct;
+import edu.kh.com.daoapplication.entity.KHTUser;
+import edu.kh.com.daoapplication.service.KHTBookService;
 import edu.kh.com.daoapplication.service.KHTProductService;
 import edu.kh.com.daoapplication.service.KHTUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,9 @@ public class ApiController {
     private KHTUserService khtUserService;
     @Autowired
     private KHTProductService khtProductService;
+
+    @Autowired
+    private KHTBookService khtBookService;
 
     //ajax url을 이용해서 DB에 저장된 DB 불러오기
     @GetMapping("/users") //        /api/users
@@ -73,4 +78,22 @@ public class ApiController {
         log.info(khtProduct.toString());
         return khtProduct;
     }
+
+    @GetMapping("/books")
+    public List<KHTBook> apiBooks() {
+        return khtBookService.findAllBooks();
+    }
+
+    @GetMapping("/book/{id}")
+    public KHTBook apiGetBook(@PathVariable("id")int id) {
+        KHTBook khtBook = khtBookService.findBookById(id);
+        log.info(khtBook.toString());
+        return khtBook;
+    }
+
+    @GetMapping("/bookSave")
+    public KHTBook apiSaveBook() {
+        return null;
+    }
+
 }

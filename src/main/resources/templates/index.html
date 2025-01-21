@@ -120,6 +120,7 @@
         const usernameRegex = /^[a-zA-Z0-9]{5,15}$/;
         const passwordRegex = /^(?=.[A-Za-z])(?=.\\d)[A-Za-z\\d]{8,}$/;
         // 빈칸인지 빈칸이 아닌지
+        /*
         if (!username){
             alert("등록하고자하는 아이디를 작성하세요");
             return;
@@ -138,6 +139,8 @@
             return;
         }
         //동일한 아이디가 존재하는지
+
+         */
 
         $.ajax({
             url: "/api/saveUser",
