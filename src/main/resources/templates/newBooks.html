@@ -3,11 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
+    <title>책 추가</title>
     <link rel="icon" href="/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
+<h1>추가할 책 정보 입력</h1>
+<label for="bookTitle">제목: </label>
+<input type="text" id="bookTitle" name="bookTitle">
 
+<label for="bookAuthor">저자: </label>
+<input type="text" id="bookAuthor" name="bookAuthor">
+
+<label for="bookGenre">장르: </label>
+<input type="text" id="bookGenre" name="bookGenre"><br>
+<button type="button" id="saveBookButton">책 등록하기</button>
+
+<script>
+    $("#saveBookButton").click(function (){
+        let bookTitle = $("#bookTitle").val();
+        let bookAuthor = $("#bookAuthor").val();
+        let bookGenre = $("#bookGenre").val();
+        $.ajax({
+            url: "/api/bookSave",
+            method:"POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                title: bookTitle,
+                author: bookAuthor,
+                genre: bookGenre
+            }),
+            success:
+                function (){
+                    alert("제품이 성공적으로 등록되었습니다.");
+                    $("#bookTitle").val(``);
+                    $("#bookAuthor").val(``);
+                    $("#bookGenre").val(``);
+                },
+            error:
+                function (){
+                    alert("등록에 실패했습니다.");
+                }
+        })
+    })
+</script>
 </body>
 </html>

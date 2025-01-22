@@ -22,4 +22,9 @@ public class KHTBookService {
     public KHTBook findBookById(int id) {
         return khtBookRepository.findById(id);
     }
+
+    //책 추가
+    public KHTBook save(KHTBook book) {
+        return khtBookRepository.save(book);
+    }
 }

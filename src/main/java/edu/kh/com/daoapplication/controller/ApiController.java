@@ -91,9 +91,9 @@ public class ApiController {
         return khtBook;
     }
 
-    @GetMapping("/bookSave")
-    public KHTBook apiSaveBook() {
-        return null;
+    @PostMapping("/bookSave")
+    public KHTBook apiSaveBook(@RequestBody KHTBook khtBook) {
+        return khtBookService.save(khtBook);
     }
 
 }
