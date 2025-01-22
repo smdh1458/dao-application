@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이메일 인증하기</title>
+    <link rel="icon" href="/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h1>이메일 인증하기</h1>
+<input type="text" name="email" id="emailInput" placeholder="인증할 이메일 입력">
+<button id="sendCodeBtn">인증번호 보내기</button>
+<input id="codeInput" placeholder="인증번호 입력" type="text" disabled>
+<button id="checkCodeBtn" disabled>인증번호 확인</button>
+<script>
+    let isVerified = false;
+    // 만약에 이메일을 변경해서 작성하면 인증확인한 상태 초기화
+    $("#emailInput").on('input',function (){
+        //인증번호 입력창 초기화 및 비활성화
+        $("#codeInput").val("").prop("disabled", true);
+        //인증번호 확인 버튼 비활성화
+        $("#checkCodeBtn").prop("disabled", true);
+        //인증상태 초기화
+        isVerified = false;
+    })
+
+    //이메일로 인증번호 보내기 버튼을 클릭하면!!
+    $("#sendCodeBtn").click(function (){
+        //$("#emailInput").val();//사용자가 작성한 이메일 값 가져오기
+        let email = $("#emailInput").val().toLowerCase();
+        if (!email){
+            alert("이메일을 입력해주세요");
+            return;
+        }
+
+        $.ajax({
+            url:"/api/sendCode",
+            method:"POST",
+            contentType: "application/json", //415 (Unsupported Media Type )
+            data: JSON.stringify({email:email}),
+            success:
+                function (data){
+                    alert("인증번호가 발송되었습니다.");
+                    $("#codeInput").prop('disabled', false);
+                    $("#checkCodeBtn").prop('disabled', false);
+                },
+            error:
+                function (error){
+                    alert("인증코드발송에 실패했습니다.");
+                }
+        })
+    })
+
+
+    $("#checkCodeBtn").click(function (){
+        let email = $("#emailInput").val().toLowerCase();
+        let code = $("#codeInput").val();
+        console.log("email: "+ email);
+        console.log("code: "+ code);
+        $.ajax({
+            url: "/api/checkCode",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({email: email,code:code}),
+            success:
+                function (data){
+                    alert("인증이완료되었습니다.");
+                    $("#codeInput").prop("disabled", true); //인증번호 입력창 비활성화
+                    $("#checkCodeBtn").prop("disabled", true); //인증번호 확인버튼 비활성화
+                    isVerified = true; //인증 완료된 상태
+                },
+            error:
+                function (error){
+                    alert("인증에 실패했습니다.");
+                }
+        })
+    })
+
+</script>
+</body>
+</html>

@@ -51,4 +51,9 @@ public class ViewController {
     public String saveBook(){
         return "newBooks";
     }
+
+    @GetMapping("/inputEmail")
+    public String inputEmail(){
+        return "inputEmail"; //inputEmail.html 템플릿으로 접속하는 주소 설정
+    }
 }
