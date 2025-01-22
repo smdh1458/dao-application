@@ -26,6 +26,7 @@
         success:
             function (data) {
                 if (data) {
+                    //이미지 출력 추가
                     $("#userDetail").html(`
                         <img src="${data.imagePath}" alt="이미지 없음">
                         <p><strong>유저 닉네임: </strong>${data.username}</p>
