@@ -23,10 +23,11 @@ public interface KHTUserRepository  extends JpaRepository<KHTUser, Long> {
     // 조회 저장 수정 삭제와 같은 기본 기능이 저장되어 있기때문에 작성 XX
 
     // 유저 네임을 이용해서 비밀번호 찾기
-    KHTUser findByUsername(String username);
+    //KHTUser findByUsername(String username);
 
     // 이용해서 상세보기
     KHTUser findById(int id);
+
 
 
 }

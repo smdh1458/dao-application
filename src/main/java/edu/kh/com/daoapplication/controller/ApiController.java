@@ -9,6 +9,7 @@ import edu.kh.com.daoapplication.service.KHTUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,9 +22,9 @@ public class ApiController {
     private KHTUserService khtUserService;
     @Autowired
     private KHTProductService khtProductService;
-
     @Autowired
     private KHTBookService khtBookService;
+
 
     //ajax url을 이용해서 DB에 저장된 DB 불러오기
     @GetMapping("/users") //        /api/users
@@ -33,10 +34,19 @@ public class ApiController {
         return users;
     }
 
+    /*
     // ajax url을 이용해서 DB에 회원 저장하기
     @PostMapping("/saveUser") //        /api/saveUser
     public KHTUser saveUser(@RequestBody KHTUser khtUser) {
         return khtUserService.save(khtUser);
+    }
+     */
+
+    @PostMapping("/saveUserImage") // 이미지 유저 등록
+    public KHTUser saveUserImage(@RequestParam("username")String username,
+                                 @RequestParam("password") String password,
+                                 @RequestParam("file")MultipartFile file) {
+        return khtUserService.save(username, password, file);
     }
 
     //모든 제품 조회 /api/products
@@ -91,12 +101,25 @@ public class ApiController {
         return khtBook;
     }
 
-    // 405 (Method Not Allowed) GET 으로는 DB 저장 X
-    // Request method 'POST' is not supported
+    /* 기본 글자 타입만 한 번에 저장하기
+     * 405 (Method Not Allowed) GET 으로는 DB 저장 X
+     * Request method 'POST' is not supported
+     * @param khtBook = Body = 통째로 바디 내 세부설정 없이 한 번에 가져온 그대로 저장
+     * @return        = 저장역할을 하는 save로 데이터 그대로 전달
+
     @PostMapping("/bookSave")
     public KHTBook apiSaveBook(@RequestBody KHTBook khtBook) {
          KHTBook saveBooks = khtBookService.save(khtBook);
          log.info(saveBooks.toString());
          return saveBooks;
+    }
+     */
+
+    @PostMapping("/bookSaveImg")
+    public KHTBook saveBookImg(@RequestParam("title") String title,
+                               @RequestParam("author") String author,
+                               @RequestParam("genre") String genre,
+                               @RequestParam("file") MultipartFile file) {
+        return khtBookService.save(title, author,genre,file);
     }
 }

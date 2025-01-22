@@ -41,6 +41,9 @@
 
     <label for="genre">장르: </label>
     <input type="text" id="genre" placeholder="책 장르 입력" required>
+
+    <label for="imagePath">이미지 선택</label>
+    <input type="file" id="imagePath" required>
     <button type="button" id="saveBook">저장하기</button>
 </div>
 <script>
@@ -48,21 +51,24 @@
         let bookTitle = $("#title").val();
         let bookAuthor = $("#author").val();
         let bookGenre = $("#genre").val();
+        let formData = new FormData(); // 이미지 데이터를 포함해서 전달하는 기능 사용
+        formData.append("title", bookTitle);
+        formData.append("author", bookAuthor);
+        formData.append("genre", bookGenre);
+        formData.append("file",$("#imagePath")[0].files[0]); //file 컨트롤러에 저장할 이름
+
         $.ajax({
-            url: "/api/bookSave",
+            url: "/api/bookSaveImg",
             method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({
-                title: bookTitle,
-                author: bookAuthor,
-                genre: bookGenre
-            }),
+            processData: false, //FormData 를 전송할때 필요
+            contentType: false, //FormData 를 전송할때 필요
+            data: formData,
             success:
                 function () {
                     alert("제품이 성공적으로 등록되었습니다.");
                     //window = 화면 창  location = 지역  href = 주소
                     //해당하는 지역으로 창을 이동한다.
-                    window.location.href="/books"; //viewController 에서 책 목록 확인하는 api = url 주소
+                    window.location.href = "/books"; //viewController 에서 책 목록 확인하는 api = url 주소
                     /*
                     만약에 창 이동을 하지 않을 경우 기존에 작성한
                     title, author, genre 에 .val(``)을 넣어 값 비우기 설정

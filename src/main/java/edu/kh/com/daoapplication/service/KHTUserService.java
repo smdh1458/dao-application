@@ -4,9 +4,13 @@ package edu.kh.com.daoapplication.service;
 import edu.kh.com.daoapplication.entity.KHTUser;
 import edu.kh.com.daoapplication.repository.KHTUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -17,11 +21,15 @@ public class KHTUserService {
     @Autowired //@Bean 이나 @Bean이 내장되어있는 @Mapper @Repository @Controller @Service 등 호출하는 기능
     private PasswordEncoder passwordEncoder; //SecurityConfig.java 내부에 작성되어있는 기능 가져옴
 
+    @Value("${upload-img}")
+    private String uploadImg;
+
     // 모든 유저 조회
     public List<KHTUser> findAll() {
         return khtUserRepository.findAll();
     }
 
+    /*
     //유저 저장하기
     public KHTUser save(KHTUser khtUser) {
 
@@ -40,9 +48,31 @@ public class KHTUserService {
         return khtUserRepository.save(khtUser);
     }
 
+     */
+
     //아이디를 활용해서 유저 상세보기
     public KHTUser findById(int id) {
         return khtUserRepository.findById(id);
+    }
+
+    //책 이미지 추가
+    public KHTUser save(String username, String password, MultipartFile file) {
+        String filename = System.currentTimeMillis()+"_"+ file.getOriginalFilename();
+
+        File saveFile = new File(uploadImg,filename);
+
+        try {
+            file.transferTo(saveFile);
+        } catch (IOException e) {
+            System.out.println("저장 실패");
+        }
+
+        KHTUser khtUser = new KHTUser();
+        khtUser.setUsername(username);
+        khtUser.setPassword(password);
+        khtUser.setImagePath("/images/"+filename);
+
+        return khtUserRepository.save(khtUser);
     }
 
 }

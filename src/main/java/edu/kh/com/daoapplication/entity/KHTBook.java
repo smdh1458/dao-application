@@ -23,4 +23,7 @@ public class KHTBook {
 
     @Column(nullable = false)
     private String genre;
+
+    @Column(nullable = true) // 기본값이라 작동 안하는 중
+    private String imagePath; //책표지 이미지 경로 추가
 }

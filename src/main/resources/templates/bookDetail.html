@@ -25,8 +25,10 @@
                 if (data) { //데이터가 있음! DB에서 데이터가 1개 이상인 상태
                     $("#bookDetailContainer").html(`
                     <h1>${data.title}</h1>
+                    <img src="${data.imagePath}" alt="이미지 없음">
                     <p>저자: ${data.author}</p>
                     <p>장르: ${data.genre}</p>
+
                     `);
                 }else { // 컨트롤러 자체에서 데이터를 가져오는데 문제가 발생해서 아예 가져오지 못하는 상태
                     $("#bookDetailContainer").html("<p>존재하는 데이터가 없습니다.</p>");

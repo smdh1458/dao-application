@@ -25,4 +25,7 @@ public class KHTUser {
     @Column(unique = false, nullable = false)
     private String password;
 
+    //이미지 경로 설정
+    @Column(nullable = true)
+    private String imagePath;
 }
