@@ -9,23 +9,31 @@
 </head>
 <body>
 <h1>특정 책 정보</h1>
-<div id="bookDetailContainer"></div>
+<div id="bookDetailContainer">
+    <!-- ajax DB 에서 가져온 책 정보 넣기-->
+</div>
 <script>
+    //js URL SEARCH PARAMETERS
     const bookApi = new URLSearchParams(window.location.search);
-    const bookId = bookApi.get("id")
+    // ? 뒤에 오는 키 밸류 값을 모두 params 안에 넣어놓기
+    const bookId = bookApi.get("id"); //params 내에서 가지고 오자 하는 값을 키이름으로 가져오기
     $.ajax({
-        url:`/api/book/${bookId}`,
-        method:"GET",
-        success:
-            function (data){
-                $("#bookDetailContainer").html(`
+        url: `/api/book/${bookId}`,
+        method: "GET",
+        success: // 컨트롤러에서 데이터가 0개 이상 존재할 때 가져온 상태
+            function (data) {
+                if (data) { //데이터가 있음! DB에서 데이터가 1개 이상인 상태
+                    $("#bookDetailContainer").html(`
                     <h1>${data.title}</h1>
                     <p>저자: ${data.author}</p>
                     <p>장르: ${data.genre}</p>
-                `);
+                    `);
+                }else { // 컨트롤러 자체에서 데이터를 가져오는데 문제가 발생해서 아예 가져오지 못하는 상태
+                    $("#bookDetailContainer").html("<p>존재하는 데이터가 없습니다.</p>");
+                }
             },
-        error:
-            function (){
+        error: //컨트롤러 자체에서 데이터를 가져오는데 문제가 발생해서 아예 가져오지 못하는 상태
+            function () {
                 $("#bookDetailContainer").html("<p>데이터를 불러오는데 실패했습니다.</p>");
             }
     })

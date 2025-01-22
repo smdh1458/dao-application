@@ -9,35 +9,41 @@
 </head>
 <body>
 <h1>책 목록보기</h1>
-<div id="bookContainer">
-    <table>
-    <tr>
+<table class="books-table"> <!--table에는 class 같은거 작동이 안됨 -->
+    <thead>
+    <tr> <!-- id값을 tr위 설정 append --->
         <th>ID</th>
         <th>제목</th>
         <th>저자</th>
         <th>장르</th>
+        <th>이동하기</th>
     </tr>
-    </table>
-</div>
+    </thead>
+    <tbody id="bookContainer">
+    <!-- 책 목록 작성 예정-->
+    </tbody>
+</table>
+
 <script>
     $.ajax({
-        url:"/api/books",
-        method:"GET",
+        url: "/api/books",
+        method: "GET",      //type(old version) method(new version)
         success:
-            function (data){
-                $.each(data, function (index, value){
+            function (data) {
+                $.each(data, function (index, value) {
                     $("#bookContainer").append(`
                             <tr>
-                                <th><a href="/book/?id=${value.id}">${value.id}</a></th>
-                                <th>${value.title}</th>
-                                <th>${value.author}</th>
-                                <th>${value.genre}</th>
+                                <td>${value.id}</td>
+                                <td>${value.title}</td>
+                                <td>${value.author}</td>
+                                <td>${value.genre}</td>
+                                <td><a href="/book/?id=${value.id}">이동</a></td>
                             </tr>
                     `);
                 })
             },
         error:
-            function (){
+            function () {
                 $("#bookContainer").html("<p>벡엔드에서 데이터를 불러오기 실패했습니다.</p>");
             }
     })

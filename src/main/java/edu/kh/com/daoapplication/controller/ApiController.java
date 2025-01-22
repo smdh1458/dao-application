@@ -91,9 +91,12 @@ public class ApiController {
         return khtBook;
     }
 
+    // 405 (Method Not Allowed) GET 으로는 DB 저장 X
+    // Request method 'POST' is not supported
     @PostMapping("/bookSave")
     public KHTBook apiSaveBook(@RequestBody KHTBook khtBook) {
-        return khtBookService.save(khtBook);
+         KHTBook saveBooks = khtBookService.save(khtBook);
+         log.info(saveBooks.toString());
+         return saveBooks;
     }
-
 }

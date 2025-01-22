@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface KHTBookRepository extends JpaRepository<KHTBook, Long> {
+    //save
+    //findAll
 
     KHTBook findById(int id);
 
