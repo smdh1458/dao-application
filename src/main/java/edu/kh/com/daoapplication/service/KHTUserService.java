@@ -70,6 +70,7 @@ public class KHTUserService {
         KHTUser khtUser = new KHTUser();
         khtUser.setUsername(username);
         khtUser.setPassword(password);
+        //khtUser.setPassword(passwordEncoder.encode(khtUser.getPassword()));
         khtUser.setImagePath("/images/"+filename);
 
         return khtUserRepository.save(khtUser);
