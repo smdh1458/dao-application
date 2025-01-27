@@ -17,7 +17,7 @@ public class KHTBookService {
     @Autowired
     private KHTBookRepository khtBookRepository;
 
-    @Value("${upload-img}") //application.properties 에 작성한 이미지 경로 가져옴
+    @Value("C:/book-image-path") //application.properties 에 작성한 이미지 경로 가져옴
     private String uploadImg; //가져온 경로는 uploadImg 공간 안에 담아줌
 
 
